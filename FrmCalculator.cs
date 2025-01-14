@@ -12,9 +12,7 @@ namespace PrimeNumbersCalculatorGP
         string _fileName = "results.xml";
         int lastcycle = 0;
         bool _isStarted = false;
-        int _defaultCycleLength = 10;// 2mins = 120s
-        System.Threading.Timer _timer; // Timer for re-run calculation
-        int _timerWorkTimeInMilliseconds = 2000;
+        int _defaultCycleLength = 10;//in seconds
 
         public FrmCalculator()
         {
@@ -61,7 +59,6 @@ namespace PrimeNumbersCalculatorGP
         }
         private async Task Start()
         {
-            //StopTimer();
             StartCycle();
 
             _calculator = new CalculatePrimeNumber(_calculationResult, _defaultCycleLength);
@@ -85,29 +82,13 @@ namespace PrimeNumbersCalculatorGP
             DisplayResult(_calculationResult);
 
             StopCycle();
-            //==timer calculating one minute brake==
-            //StartTimer(); 
         }
         private void btnStop_Click(object sender, EventArgs e)
         {
             StopCycle();
             _calculator.CancelManual();
         }
-        //private void StartTimer()
-        //{
-        //    if (_timer == null)
-        //    {
-        //        _timer = new System.Threading.Timer(TimerCallback, null, _timerWorkTimeInMilliseconds, _timerWorkTimeInMilliseconds); 
-        //    }
-        //}
-        //private void StopTimer()
-        //{
-        //    if (_timer != null)
-        //    {
-        //        _timer.Dispose();
-        //        _timer = null;
-        //    }
-        //}
+
         private void TimerCallback(object state)
         {
            this.Invoke(new Action(async () => await Start()));
